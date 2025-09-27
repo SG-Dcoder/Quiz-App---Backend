@@ -1,0 +1,33 @@
+# Node.js dependencies
+node_modules/
+
+# Build and coverage outputs
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# SQLite database files
+quiz.db
+quiz.db-journal
+
+# Logs
+logs/
+*.log
+
+# IDE and OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Test artifacts
+tests/**/snapshot-*
+
+# Misc
+*.tgz
