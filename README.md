@@ -78,112 +78,260 @@ API Base URL: `http://localhost:3000/api/v1`
 - `npm run test:watch` – watch mode  
 - `npm run test:coverage` – coverage report  
 
-## 📚 API Documentation
+---
 
-### Root Metadata  
-**GET** `/api/`
+## 📚 API Endpoints with Examples
+
+### 1. Create a Quiz
+
+**Request**  
+POST `/api/v1/quizzes`  
+```bash
+curl -X POST http://localhost:3000/api/v1/quizzes \
+  -H "Content-Type: application/json" \
+  -d '{"title":"JavaScript 101","description":"Basic JS quiz"}'
+```
+
+**Response** (201 Created)  
 ```json
 {
   "success": true,
-  "message": "Quiz API v1",
-  "version": "1.0.0",
-  "endpoints": {
-    "quizzes": {
-      "POST /api/v1/quizzes": "Create a new quiz",
-      "GET /api/v1/quizzes": "Get all quizzes",
-      "GET /api/v1/quizzes/:id": "Get quiz by ID",
-      "DELETE /api/v1/quizzes/:id": "Delete a quiz",
-      "GET /api/v1/quizzes/:id/statistics": "Get quiz statistics"
-    },
-    "questions": {
-      "POST /api/v1/quizzes/:id/questions": "Add question to quiz",
-      "GET /api/v1/quizzes/:id/questions": "Get quiz questions for taking"
-    },
-    "submissions": {
-      "POST /api/v1/quizzes/:id/submit": "Submit quiz answers and get score"
-    }
+  "message": "Quiz created successfully",
+  "data": {
+    "id": 1,
+    "title": "JavaScript 101",
+    "description": "Basic JS quiz",
+    "created_at": "2025-09-27T...",
+    "updated_at": "2025-09-27T..."
   },
-  "documentation": "https://github.com/your-repo/quiz-api#api-documentation"
+  "timestamp": "2025-09-27T..."
 }
 ```
 
-### Quiz Management
+---
 
-#### Create Quiz  
-**POST** `/api/v1/quizzes`  
-```json
-{ "title": "JavaScript 101", "description": "Basic JS quiz" }
+### 2. Get All Quizzes
+
+**Request**  
+GET `/api/v1/quizzes`  
+```bash
+curl http://localhost:3000/api/v1/quizzes
 ```
 
-#### Get All Quizzes  
-**GET** `/api/v1/quizzes`
-
-#### Get Quiz by ID  
-**GET** `/api/v1/quizzes/:id`
-
-#### Delete Quiz  
-**DELETE** `/api/v1/quizzes/:id`
-
-#### Get Quiz Statistics  
-**GET** `/api/v1/quizzes/:id/statistics`
-
-### Question Management
-
-#### Add Question  
-**POST** `/api/v1/quizzes/:id/questions`  
-```json
-{
-  "question_text": "What is 2+2?",
-  "question_type": "single_choice",
-  "options": [
-    { "option_text": "4", "is_correct": true },
-    { "option_text": "3", "is_correct": false }
-  ]
-}
-```
-
-#### Get Questions (for taking)  
-**GET** `/api/v1/quizzes/:id/questions`
-
-### Quiz Submission
-
-#### Submit Answers  
-**POST** `/api/v1/quizzes/:id/submit`  
-```json
-{
-  "answers": [
-    { "question_id": 1, "selected_option_ids": [2] },
-    { "question_id": 2, "text_answer": "A closure is ..." }
-  ]
-}
-```
-
-## 💬 Response Format
-All responses:
+**Response** (200 OK)  
 ```json
 {
   "success": true,
-  "message": "Operation successful",
-  "data": { /* payload */ },
-  "timestamp": "2025-09-27T...Z"
+  "message": "Quizzes fetched successfully",
+  "data": [
+    {
+      "id": 1,
+      "title": "JavaScript 101",
+      "description": "Basic JS quiz",
+      "created_at": "2025-09-27T...",
+      "updated_at": "2025-09-27T...",
+      "question_count": 0
+    }
+  ],
+  "timestamp": "2025-09-27T..."
 }
 ```
+
+---
+
+### 3. Get Quiz by ID
+
+**Request**  
+GET `/api/v1/quizzes/1`  
+```bash
+curl http://localhost:3000/api/v1/quizzes/1
+```
+
+**Response** (200 OK)  
+```json
+{
+  "success": true,
+  "message": "Quiz fetched successfully",
+  "data": {
+    "id": 1,
+    "title": "JavaScript 101",
+    "description": "Basic JS quiz",
+    "created_at": "2025-09-27T...",
+    "updated_at": "2025-09-27T...",
+    "question_count": 0
+  },
+  "timestamp": "2025-09-27T..."
+}
+```
+
+---
+
+### 4. Delete a Quiz
+
+**Request**  
+DELETE `/api/v1/quizzes/1`  
+```bash
+curl -X DELETE http://localhost:3000/api/v1/quizzes/1
+```
+
+**Response** (200 OK)  
+```json
+{
+  "success": true,
+  "message": "Quiz deleted successfully",
+  "timestamp": "2025-09-27T..."
+}
+```
+
+---
+
+### 5. Get Quiz Statistics
+
+**Request**  
+GET `/api/v1/quizzes/1/statistics`  
+```bash
+curl http://localhost:3000/api/v1/quizzes/1/statistics
+```
+
+**Response** (200 OK)  
+```json
+{
+  "success": true,
+  "message": "Quiz statistics fetched successfully",
+  "data": {
+    "total_submissions": 0,
+    "average_score": 0,
+    "highest_score": 0,
+    "lowest_score": 0
+  },
+  "timestamp": "2025-09-27T..."
+}
+```
+
+---
+
+### 6. Add a Question to a Quiz
+
+**Request**  
+POST `/api/v1/quizzes/1/questions`  
+```bash
+curl -X POST http://localhost:3000/api/v1/quizzes/1/questions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question_text":"What is 2+2?",
+    "question_type":"single_choice",
+    "options":[
+      {"option_text":"4","is_correct":true},
+      {"option_text":"3","is_correct":false}
+    ]
+  }'
+```
+
+**Response** (201 Created)  
+```json
+{
+  "success": true,
+  "message": "Question added to quiz successfully",
+  "data": {
+    "id": 1,
+    "quiz_id": 1,
+    "question_text": "What is 2+2?",
+    "question_type": "single_choice",
+    "created_at": "2025-09-27T...",
+    "options": [
+      {"id":1,"option_text":"4","is_correct":true},
+      {"id":2,"option_text":"3","is_correct":false}
+    ]
+  },
+  "timestamp": "2025-09-27T..."
+}
+```
+
+---
+
+### 7. Get Quiz Questions for Taking
+
+**Request**  
+GET `/api/v1/quizzes/1/questions`  
+```bash
+curl http://localhost:3000/api/v1/quizzes/1/questions
+```
+
+**Response** (200 OK)  
+```json
+{
+  "success": true,
+  "message": "Quiz questions fetched successfully",
+  "data": [
+    {
+      "id": 1,
+      "quiz_id": 1,
+      "question_text": "What is 2+2?",
+      "question_type": "single_choice",
+      "options": [
+        {"id":1,"option_text":"4"},
+        {"id":2,"option_text":"3"}
+      ]
+    }
+  ],
+  "timestamp": "2025-09-27T..."
+}
+```
+
+---
+
+### 8. Submit Quiz Answers
+
+**Request**  
+POST `/api/v1/quizzes/1/submit`  
+```bash
+curl -X POST http://localhost:3000/api/v1/quizzes/1/submit \
+  -H "Content-Type: application/json" \
+  -d '{
+    "answers":[
+      {"question_id":1,"selected_option_ids":[1]}
+    ]
+  }'
+```
+
+**Response** (200 OK)  
+```json
+{
+  "success": true,
+  "message": "Quiz submitted successfully",
+  "data": {
+    "score": 1,
+    "total": 1,
+    "percentage": 100,
+    "results": [
+      {
+        "question_id": 1,
+        "question_text": "What is 2+2?",
+        "is_correct": true,
+        "user_answer": [1]
+      }
+    ]
+  },
+  "timestamp": "2025-09-27T..."
+}
+```
+
+---
+
+## 🐛 Troubleshooting
+- Ensure SQLite DB file has write permissions  
+- Change `PORT` in `.env` if in use  
+- Reinstall dependencies if tests fail:
+  ```bash
+  rm -rf node_modules
+  npm install
+  ```
 
 ## 🧪 Testing
-Run tests:
 ```bash
 npm test
 npm run test:coverage
 ```
 
-## 🐛 Troubleshooting
-- Ensure SQLite DB file has write permissions  
-- Change `PORT` in `.env` if in use  
-- Reinstall dependencies: `rm -rf node_modules && npm install`
-
 ## 👨‍💻 Author
 Built with ❤️ by Suraj Ghosh
-
----
-
-For support, open an issue in the repository.
